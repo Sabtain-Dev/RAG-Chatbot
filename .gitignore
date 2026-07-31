@@ -1,0 +1,21 @@
+# Python virtual environment
+.venv/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+
+# Database & Chroma local storage
+chroma_db/
+*.sqlite3
+
+# Logs & Data
+*.log
+data/raw/*
+!data/raw/.gitkeep
