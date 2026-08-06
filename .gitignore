@@ -18,4 +18,5 @@ chroma_db/
 # Logs & Data
 *.log
 data/raw/*
+data/cleaned/*
 !data/raw/.gitkeep
