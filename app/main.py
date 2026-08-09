@@ -1,19 +1,28 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.api.routes import router
 
 app = FastAPI(
-    title="LumeLuxe RAG Chatbot API",
-    description="Custom e-commerce RAG backend using FastAPI, ChromaDB, and Ollama",
+    title="Lumeluxe RAG Chatbot API",
+    description="Production-ready backend service combining ChromaDB semantic search and Ollama generation.",
     version="1.0.0"
 )
 
+# Configure CORS Middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins for development
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows GET, POST, OPTIONS, etc.
+    allow_headers=["*"],
+)
+
+app.include_router(router)
+
 @app.get("/")
-def read_root():
-    return {
-        "status": "online",
-        "service": "LumeLuxe RAG Chatbot Backend",
-        "version": "1.0.0"
-    }
+def root():
+    return {"message": "Lumeluxe Chatbot Backend Running"}
 
 @app.get("/health")
-def health_check():
-    return {"health": "ok"}
+def health():
+    return {"status": "healthy"}
