@@ -4,16 +4,19 @@ from app.api.routes import router
 
 app = FastAPI(
     title="Lumeluxe RAG Chatbot API",
-    description="Production-ready backend service combining ChromaDB semantic search and Ollama generation.",
+    description="Backend API serving Lumeluxe E-Commerce Knowledge Base.",
     version="1.0.0"
 )
 
-# Configure CORS Middleware
+# Enable CORS for local dev servers
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins for development
+    allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],  # Allows GET, POST, OPTIONS, etc.
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 

@@ -15,9 +15,9 @@ def generate(question: str, context: str) -> str:
             {"role": "user", "content": user_prompt}
         ],
         options={
-            "temperature": 0.2,
-            "num_ctx": 1024,      # Reduced context window to lower CPU latency
-            "num_predict": 250,   # Capped generation token length for faster output
+            "temperature": 0.0,   # Set to 0.0 to prevent price hallucination
+            "num_ctx": 2048,      # Expanded context window to handle multi-chunk responses
+            "num_predict": 350,   # Increased output token length
         }
     )
 
@@ -34,9 +34,9 @@ def generate_stream(question: str, context: str) -> Generator[str, None, None]:
             {"role": "user", "content": user_prompt}
         ],
         options={
-            "temperature": 0.2,
-            "num_ctx": 1024,
-            "num_predict": 250,
+            "temperature": 0.0,
+            "num_ctx": 2048,
+            "num_predict": 350,
         },
         stream=True
     )

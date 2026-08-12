@@ -13,9 +13,7 @@ collection = client.get_or_create_collection(
 def reset_collection():
     """
     Clears all existing vectors before a full re-index so stale chunks
-    from a previous run (different chunk counts per source) don't linger.
-    Deletes by ID rather than dropping the collection, so the module-level
-    `collection` object stays valid for callers that already imported it.
+    from a previous run don't linger.
     """
     existing = collection.get()
     ids = existing.get("ids", [])
