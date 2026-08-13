@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumeluxe Chatbot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -14,11 +17,17 @@
 
     <div id="chatbot" class="chatbot hidden">
         <div class="chat-header">
-            <div>
-                <strong>Lumeluxe Assistant</strong>
-                <small>We're here to help</small>
+            <div class="chat-header-brand">
+                <!-- <div class="chat-logo">bo</div> -->
+                <div>
+                    <strong>Lume Luxe Assistant</strong>
+                    <small>We're here to help</small>
+                </div>
             </div>
-            <button id="chat-close">×</button>
+            <div class="chat-header-actions">
+                <button id="chat-reset" title="Start a new conversation">⟲</button>
+                <button id="chat-close">×</button>
+            </div>
         </div>
 
         <div id="chat-messages" class="chat-messages">

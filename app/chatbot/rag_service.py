@@ -1,38 +1,23 @@
 import re
+import uuid
 from app.chatbot.generator import generate
 from app.chatbot.retriever import retrieve
+from app.chatbot.memory import memory
 from app.core.config import CONTACT_INFO
 from app.models.chat import ChatRequest, ChatResponse
 
-# Fast lookup sets for conversational etiquette
 GREETINGS = {
-    "hi",
-    "hello",
-    "hey",
-    "good morning",
-    "good evening",
-    "good afternoon",
-    "hi there",
-    "hey there",
+    "hi", "hello", "hey", "good morning", "good evening", "good afternoon",
+    "hi there", "hey there",
 }
 THANKS = {
-    "thank you",
-    "thanks",
-    "thank you for the help",
-    "thanks for the help",
-    "thanks a lot",
-    "thank you so much",
+    "thank you", "thanks", "thank you for the help", "thanks for the help",
+    "thanks a lot", "thank you so much",
 }
 BYE = {
-    "bye",
-    "goodbye",
-    "see you",
-    "bye bye",
-    "have a good day",
-    "good night",
+    "bye", "goodbye", "see you", "bye bye", "have a good day", "good night",
 }
 
-# Regex to detect and strip leading greetings and conversational filler words
 PREAMBLE_REGEX = re.compile(
     r"^(hi|hello|hey|good morning|good afternoon|good evening|please|could you|can you|tell me|i want to know|i was wondering|do you know)\b[!\.,\s]*",
     re.IGNORECASE,
@@ -45,7 +30,6 @@ class RAGService:
         self.top_k = top_k
 
     def _check_conversational_intent(self, message: str) -> str | None:
-        """Fast-path check for simple etiquette to respond immediately without vector search."""
         cleaned = message.strip().lower().rstrip("!.,?")
         if cleaned in GREETINGS:
             return "Hello! Welcome to Lumeluxe. How can I assist you with our skincare and beauty products today?"
@@ -56,24 +40,31 @@ class RAGService:
         return None
 
     def _clean_search_query(self, message: str) -> str:
-        """Iteratively strips leading greetings and preamble fillers to isolate key product terms for ChromaDB vector search."""
         cleaned = message.strip()
         while True:
             new_cleaned = PREAMBLE_REGEX.sub("", cleaned).strip()
             if new_cleaned == cleaned or not new_cleaned:
                 break
             cleaned = new_cleaned
-
         return cleaned if len(cleaned) > 2 else message
 
     def ask(self, request: ChatRequest) -> ChatResponse:
-        """Processes query through Intent Check -> Query Cleaner -> ChromaDB Retrieval -> LLM Generation."""
-        # 1. Fast-path conversational phrase check
+        """Processes query through Intent Check -> History -> Retrieval -> Generation."""
+        session_id = request.session_id or str(uuid.uuid4())
+        history = memory.get_history(session_id)
+
+        # 1. Fast-path conversational phrase check — still logged to memory
+        #    so a later "as I said, ..." follow-up has continuity.
         conversational_reply = self._check_conversational_intent(request.message)
         if conversational_reply:
-            return ChatResponse(answer=conversational_reply, sources_found=True)
+            memory.add_message(session_id, "user", request.message)
+            memory.add_message(session_id, "assistant", conversational_reply)
+            return ChatResponse(answer=conversational_reply, sources_found=True, session_id=session_id)
 
-        # 2. Clean leading filler so ChromaDB distance calculation stays accurate
+        # 2. Clean leading filler so ChromaDB distance calculation stays accurate.
+        #    NOTE: only the search query is cleaned — the ORIGINAL message is
+        #    what gets stored in history and sent to the generator, so the
+        #    LLM still sees the user's natural phrasing for pronoun resolution.
         search_query = self._clean_search_query(request.message)
 
         # 3. Retrieve relevant chunks from ChromaDB
@@ -84,23 +75,26 @@ class RAGService:
                 "I couldn't find this information on the Lumeluxe website.\n\n"
                 f"Please contact the Lumeluxe team:\n{CONTACT_INFO}"
             )
-            return ChatResponse(answer=fallback_answer, sources_found=False)
+            memory.add_message(session_id, "user", request.message)
+            memory.add_message(session_id, "assistant", fallback_answer)
+            return ChatResponse(answer=fallback_answer, sources_found=False, session_id=session_id)
 
         # 4. Format context into structured chunks
-        context_blocks = [
-            f"[Chunk {i+1}]\n{doc}" for i, doc in enumerate(documents)
-        ]
+        context_blocks = [f"[Chunk {i+1}]\n{doc}" for i, doc in enumerate(documents)]
         context = "\n\n".join(context_blocks)
 
-        # 5. Pass retrieved context + original user query to Ollama
+        # 5. Pass retrieved context + conversation history + original query to Ollama
         try:
-            answer = generate(question=request.message, context=context)
-            return ChatResponse(answer=answer, sources_found=True)
-        except Exception as e:
-            return ChatResponse(
-                answer="The AI inference service is currently unavailable. Please ensure Ollama is running locally.",
-                sources_found=True,
-            )
+            answer = generate(question=request.message, context=context, history=history)
+            memory.add_message(session_id, "user", request.message)
+            memory.add_message(session_id, "assistant", answer)
+            return ChatResponse(answer=answer, sources_found=True, session_id=session_id)
+        except Exception:
+            error_answer = "The AI inference service is currently unavailable. Please ensure Ollama is running locally."
+            return ChatResponse(answer=error_answer, sources_found=True, session_id=session_id)
+
+    def reset_session(self, session_id: str) -> None:
+        memory.clear(session_id)
 
 
 # Global service instance
