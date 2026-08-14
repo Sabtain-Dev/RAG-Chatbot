@@ -7,39 +7,43 @@
     <title>Lumeluxe Chatbot</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="chatbot.css">
 </head>
 
 <body>
 
-    <button id="chat-toggle">💬</button>
+    <div class="lumeluxe-chatbot-widget">
 
-    <div id="chatbot" class="chatbot hidden">
-        <div class="chat-header">
-            <div class="chat-header-brand">
-                <!-- <div class="chat-logo">bo</div> -->
-                <div>
-                    <strong>Lume Luxe Assistant</strong>
-                    <small>We're here to help</small>
+        <button id="lumeluxe-chat-toggle" class="lumeluxe-chatbot-button">💬</button>
+
+        <div id="lumeluxe-chatbot" class="lumeluxe-chatbot-window lumeluxe-chatbot-hidden">
+            <div class="lumeluxe-chatbot-header">
+                <div class="lumeluxe-chatbot-brand">
+                    <div class="lumeluxe-chatbot-logo"><img src="lumeluxe-chatbot-logo.png" alt="chatbot-logo"></div>
+                    <div>
+                        <strong>Lume Luxe Assistant</strong>
+                        <small>We're here to help</small>
+                    </div>
+                </div>
+                <div class="lumeluxe-chatbot-header-actions">
+                    <button id="lumeluxe-chat-reset" class="lumeluxe-chatbot-reset" title="Start a new conversation">⟲</button>
+                    <button id="lumeluxe-chat-close" class="lumeluxe-chatbot-close">×</button>
                 </div>
             </div>
-            <div class="chat-header-actions">
-                <button id="chat-reset" title="Start a new conversation">⟲</button>
-                <button id="chat-close">×</button>
+
+            <div id="lumeluxe-chat-messages" class="lumeluxe-chatbot-messages">
+                <div class="lumeluxe-chatbot-message lumeluxe-chatbot-message-bot">
+                    Hello! How can I help you today?
+                </div>
+            </div>
+
+            <div class="lumeluxe-chatbot-input-area">
+                <input type="text" id="lumeluxe-message-input" class="lumeluxe-chatbot-input" placeholder="Ask something...">
+                <button id="lumeluxe-send-button" class="lumeluxe-chatbot-send">Send</button>
             </div>
         </div>
 
-        <div id="chat-messages" class="chat-messages">
-            <div class="message bot">
-                Hello! How can I help you today?
-            </div>
-        </div>
-
-        <div class="chat-input-area">
-            <input type="text" id="message-input" placeholder="Ask something...">
-            <button id="send-button">Send</button>
-        </div>
     </div>
 
     <script src="chatbot.js"></script>

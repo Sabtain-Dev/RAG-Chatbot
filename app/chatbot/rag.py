@@ -16,7 +16,6 @@ class RAGService:
         self.top_k = top_k
 
     def ask(self, request: ChatRequest) -> ChatResponse:
-        """Full response generation."""
         docs = retrieve(request.question, top_k=self.top_k)
 
         if not docs:
@@ -26,14 +25,13 @@ class RAGService:
             )
             return ChatResponse(answer=fallback_msg, sources_found=False)
 
-        context_blocks = [f"[Chunk {i+1}]\n{doc}" for i, doc in enumerate(docs)]
+        context_blocks = [f"[Chunk {i+1}]\n{item['document']}" for i, item in enumerate(docs)]
         context = "\n\n".join(context_blocks)
 
         answer = generate(request.question, context)
         return ChatResponse(answer=answer, sources_found=True)
 
     def ask_stream(self, question: str) -> Union[Generator[str, None, None], tuple[str, bool]]:
-        """Token streaming interface for low perceived latency."""
         docs = retrieve(question, top_k=self.top_k)
 
         if not docs:
@@ -43,10 +41,9 @@ class RAGService:
             )
             return fallback_msg, False
 
-        context_blocks = [f"[Chunk {i+1}]\n{doc}" for i, doc in enumerate(docs)]
+        context_blocks = [f"[Chunk {i+1}]\n{item['document']}" for i, item in enumerate(docs)]
         context = "\n\n".join(context_blocks)
 
         return generate_stream(question, context), True
 
-# Global service instance
 rag_service = RAGService()

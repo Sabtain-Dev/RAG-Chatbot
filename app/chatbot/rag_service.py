@@ -24,6 +24,21 @@ PREAMBLE_REGEX = re.compile(
 )
 
 
+def _build_context(documents: list[dict]) -> str:
+    """Labels each chunk with what it actually is — a specific product or a
+    general page — so the LLM can ground answers precisely (Day 8 Part 4)."""
+    blocks = []
+    for i, item in enumerate(documents):
+        meta = item.get("metadata") or {}
+        doc = item["document"]
+        if meta.get("source") == "product":
+            header = f"[Chunk {i+1} | Product: {meta.get('product_name', 'Unknown')} | Category: {meta.get('category', 'General')}]"
+        else:
+            header = f"[Chunk {i+1} | Page: {meta.get('page', 'Website')}]"
+        blocks.append(f"{header}\n{doc}")
+    return "\n\n".join(blocks)
+
+
 class RAGService:
 
     def __init__(self, top_k: int = 3):
@@ -49,25 +64,20 @@ class RAGService:
         return cleaned if len(cleaned) > 2 else message
 
     def ask(self, request: ChatRequest) -> ChatResponse:
-        """Processes query through Intent Check -> History -> Retrieval -> Generation."""
         session_id = request.session_id or str(uuid.uuid4())
         history = memory.get_history(session_id)
 
-        # 1. Fast-path conversational phrase check — still logged to memory
-        #    so a later "as I said, ..." follow-up has continuity.
         conversational_reply = self._check_conversational_intent(request.message)
         if conversational_reply:
             memory.add_message(session_id, "user", request.message)
             memory.add_message(session_id, "assistant", conversational_reply)
             return ChatResponse(answer=conversational_reply, sources_found=True, session_id=session_id)
 
-        # 2. Clean leading filler so ChromaDB distance calculation stays accurate.
-        #    NOTE: only the search query is cleaned — the ORIGINAL message is
-        #    what gets stored in history and sent to the generator, so the
-        #    LLM still sees the user's natural phrasing for pronoun resolution.
+        # NOTE (Day 8 Part 11): follow-ups like "what is its price?" still
+        # search on the raw pronoun-bearing query here — the retriever has
+        # no memory of its own. Query rewriting to resolve "it" against
+        # conversation history is explicitly deferred to Day 9, not done yet.
         search_query = self._clean_search_query(request.message)
-
-        # 3. Retrieve relevant chunks from ChromaDB
         documents = retrieve(search_query, top_k=self.top_k)
 
         if not documents:
@@ -79,11 +89,8 @@ class RAGService:
             memory.add_message(session_id, "assistant", fallback_answer)
             return ChatResponse(answer=fallback_answer, sources_found=False, session_id=session_id)
 
-        # 4. Format context into structured chunks
-        context_blocks = [f"[Chunk {i+1}]\n{doc}" for i, doc in enumerate(documents)]
-        context = "\n\n".join(context_blocks)
+        context = _build_context(documents)
 
-        # 5. Pass retrieved context + conversation history + original query to Ollama
         try:
             answer = generate(question=request.message, context=context, history=history)
             memory.add_message(session_id, "user", request.message)
@@ -96,6 +103,4 @@ class RAGService:
     def reset_session(self, session_id: str) -> None:
         memory.clear(session_id)
 
-
-# Global service instance
 rag_service = RAGService()

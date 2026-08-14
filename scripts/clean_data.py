@@ -29,6 +29,22 @@ MAX_NAME_WORDS = 8
 STAR_RATING_LINE = re.compile(r"^[★☆]+$")
 STAR_RATING_ANY = re.compile(r"[★☆]+")
 
+CATEGORY_RULES = [
+    (re.compile(r"soap", re.IGNORECASE), "Herbal Soap"),
+    (re.compile(r"shampoo|hair oil|\bhair\b", re.IGNORECASE), "Haircare"),
+    (re.compile(r"serum|cream|lotion|moistur", re.IGNORECASE), "Skincare"),
+    (re.compile(r"bundle|gala", re.IGNORECASE), "Bundle"),
+]
+
+
+def infer_category(name: str) -> str:
+    """Lightweight keyword-based categorization — good enough until Day 9's
+    proper product-page ingestion can pull real category data from the site."""
+    for pattern, label in CATEGORY_RULES:
+        if pattern.search(name):
+            return label
+    return "General"
+
 # Requires an actual digit right after the currency symbol. An earlier
 # version used `[\d,]+` which matched a bare comma with no digit at all —
 # that's what turned "...content, offers," into a fake "Rs," price hit.
@@ -216,17 +232,10 @@ def clean_file_content(raw_text: str, boilerplate: dict) -> str:
 
 
 def extract_product_entry(paragraph: str):
-    """
-    Attempts to parse a cleaned paragraph as a product card. Returns
-    (dedupe_key, formatted_entry) or None if it doesn't look like a real
-    product — validating the extracted name itself rather than trying to
-    enumerate every possible garbage prefix pattern.
-    """
     text = paragraph.strip()
     if len(text) > MAX_PRODUCT_PARAGRAPH_LEN:
         return None
 
-    # Strip stacked badges, e.g. "SAVE Rs.300.00 New! " before the real name
     for _ in range(2):
         stripped = BADGE_PREFIX.sub("", text, count=1).strip()
         if stripped == text:
@@ -243,8 +252,6 @@ def extract_product_entry(paragraph: str):
 
     if not (3 <= len(name) <= 80):
         return None
-    # 2+ sentence terminators in a "name" means it's leftover marketing
-    # copy (e.g. "Special discounts. Limited stocks"), not a product title.
     if len(SENTENCE_END.findall(name)) > 1:
         return None
     if len(name.split()) > MAX_NAME_WORDS:
@@ -257,6 +264,7 @@ def extract_product_entry(paragraph: str):
     prices = PRICE_TOKEN.findall(text)
     stock_match = STOCK_PATTERN.search(text)
     rating_match = STAR_RATING_ANY.search(text)
+    category = infer_category(name)
 
     lines_out = [f"PRODUCT: {name}", f"Price: {prices[0].strip()}"]
     if len(prices) > 1:
@@ -265,6 +273,7 @@ def extract_product_entry(paragraph: str):
         lines_out.append(f"Availability: {stock_match.group(1).title()}")
     if rating_match:
         lines_out.append(f"Rating: {rating_match.group(0)}")
+    lines_out.append(f"Category: {category}")
 
     return name.lower(), "\n".join(lines_out)
 

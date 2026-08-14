@@ -7,16 +7,16 @@ if (!sessionId) {
     localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
 }
 
-const toggleButton = document.getElementById("chat-toggle");
-const closeButton = document.getElementById("chat-close");
-const resetButton = document.getElementById("chat-reset");
-const chatbot = document.getElementById("chatbot");
-const sendButton = document.getElementById("send-button");
-const input = document.getElementById("message-input");
-const messages = document.getElementById("chat-messages");
+const toggleButton = document.getElementById("lumeluxe-chat-toggle");
+const closeButton = document.getElementById("lumeluxe-chat-close");
+const resetButton = document.getElementById("lumeluxe-chat-reset");
+const chatbot = document.getElementById("lumeluxe-chatbot");
+const sendButton = document.getElementById("lumeluxe-send-button");
+const input = document.getElementById("lumeluxe-message-input");
+const messages = document.getElementById("lumeluxe-chat-messages");
 
-toggleButton.addEventListener("click", () => chatbot.classList.remove("hidden"));
-closeButton.addEventListener("click", () => chatbot.classList.add("hidden"));
+toggleButton.addEventListener("click", () => chatbot.classList.remove("lumeluxe-chatbot-hidden"));
+closeButton.addEventListener("click", () => chatbot.classList.add("lumeluxe-chatbot-hidden"));
 
 function formatMarkdown(text) {
     let safeText = text
@@ -30,7 +30,7 @@ function formatMarkdown(text) {
 
 function addMessage(text, sender) {
     const message = document.createElement("div");
-    message.classList.add("message", sender);
+    message.classList.add("lumeluxe-chatbot-message", `lumeluxe-chatbot-message-${sender}`);
     message.innerHTML = formatMarkdown(text);
     messages.appendChild(message);
     messages.scrollTop = messages.scrollHeight;
@@ -58,11 +58,11 @@ async function sendMessage() {
             localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
         }
 
-        const botMessages = document.querySelectorAll(".message.bot");
+        const botMessages = document.querySelectorAll(".lumeluxe-chatbot-message-bot");
         const lastBotMessage = botMessages[botMessages.length - 1];
         lastBotMessage.innerHTML = formatMarkdown(data.answer);
     } catch (error) {
-        const botMessages = document.querySelectorAll(".message.bot");
+        const botMessages = document.querySelectorAll(".lumeluxe-chatbot-message-bot");
         const lastBotMessage = botMessages[botMessages.length - 1];
         lastBotMessage.textContent = "Sorry, I couldn't connect to the chatbot server.";
         console.error("Chatbot Fetch Error:", error);
