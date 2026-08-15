@@ -9,3 +9,5 @@ python-dotenv==1.2.2
 ollama==0.6.2
 cloudscraper==1.2.71
 playwright==1.51.0
+httpx==0.24.1
+pytest==8.3.5
