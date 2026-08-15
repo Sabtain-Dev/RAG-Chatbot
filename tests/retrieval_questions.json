@@ -1,0 +1,8 @@
+[
+  { "question": "What is the price of Vitamin C Herbal Soap?", "expected_product": "vitamin c herbal soap" },
+  { "question": "Is Goat Milk Herbal Soap in stock?", "expected_product": "goat milk herbal soap" },
+  { "question": "How much is Coffee Herbal Soap?", "expected_product": "coffee herbal soap" },
+  { "question": "What is the price of Lume Luxe Herbal Hair Oil & Shampoo?", "expected_product": "lume luxe herbal hair oil" },
+  { "question": "Tell me about Neem Herbal Soap", "expected_product": "neem herbal soap" },
+  { "question": "Is Whitening Herbal Soap available?", "expected_product": "whitening herbal soap" }
+]
