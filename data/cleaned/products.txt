@@ -1,0 +1,70 @@
+Source URL: internal://product-catalog
+==================================================
+
+PRODUCT: Lume Luxe Herbal Hair Oil & Shampoo
+Price: Rs.2700.00
+Original Price: Rs.3000.00
+Discount: 10% off
+Availability: In Stock
+Rating: ★★★★★
+Category: Haircare
+
+PRODUCT: Vitamin C Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Goat Milk Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Coffee Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Multani Mitte Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Menthol Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Neem Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Charcoal Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Aloe Vera Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Acne Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
+
+PRODUCT: Whitening Herbal Soap
+Price: Rs.600.00
+Availability: In Stock
+Rating: ★★★★★
+Category: Herbal Soap
