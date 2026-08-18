@@ -1,70 +1,92 @@
-Source URL: internal://product-catalog
+Source URL: internal://mongodb/sellerproducts
 ==================================================
 
-PRODUCT: Lume Luxe Herbal Hair Oil & Shampoo
-Price: Rs.2700.00
-Original Price: Rs.3000.00
-Discount: 10% off
+PRODUCT: Whitening Herbal Soap
+Price: Rs.600
 Availability: In Stock
-Rating: ★★★★★
-Category: Haircare
-
-PRODUCT: Vitamin C Herbal Soap
-Price: Rs.600.00
-Availability: In Stock
-Rating: ★★★★★
 Category: Herbal Soap
 
-PRODUCT: Goat Milk Herbal Soap
-Price: Rs.600.00
-Availability: In Stock
-Rating: ★★★★★
-Category: Herbal Soap
-
-PRODUCT: Coffee Herbal Soap
-Price: Rs.600.00
-Availability: In Stock
-Rating: ★★★★★
-Category: Herbal Soap
-
-PRODUCT: Multani Mitte Herbal Soap
-Price: Rs.600.00
-Availability: In Stock
-Rating: ★★★★★
-Category: Herbal Soap
-
-PRODUCT: Menthol Herbal Soap
-Price: Rs.600.00
-Availability: In Stock
-Rating: ★★★★★
-Category: Herbal Soap
-
-PRODUCT: Neem Herbal Soap
-Price: Rs.600.00
-Availability: In Stock
-Rating: ★★★★★
-Category: Herbal Soap
-
-PRODUCT: Charcoal Herbal Soap
-Price: Rs.600.00
-Availability: In Stock
-Rating: ★★★★★
-Category: Herbal Soap
-
-PRODUCT: Aloe Vera Herbal Soap
-Price: Rs.600.00
-Availability: In Stock
-Rating: ★★★★★
-Category: Herbal Soap
+Description:
+Lume Luxe Whitening Herbal Soap Whitening Herbal Soap is a natural and effective soap designed to brighten and enhance your skin. It deeply cleanses the skin, removes impurities, and retains moisture. Packed with herbal ingredients, it softens, smooths, and nourishes the skin. With regular use, your skin tone becomes brighter and more even.
 
 PRODUCT: Acne Herbal Soap
-Price: Rs.600.00
+Price: Rs.600
 Availability: In Stock
-Rating: ★★★★★
 Category: Herbal Soap
 
-PRODUCT: Whitening Herbal Soap
-Price: Rs.600.00
+Description:
+Lume Luxe Acne Herbal Soap Acne Herbal Soap is a natural soap formulated to help fight acne and pimples. It cleanses the skin’s pores, reduces excess oil, and eliminates harmful bacteria that cause acne. Packed with herbal ingredients, it soothes inflammation and keeps your skin soft and healthy. With regular use, your skin becomes clear, smooth, and acne-free.
+
+PRODUCT: Aloe Vera Herbal Soap
+Price: Rs.600
 Availability: In Stock
-Rating: ★★★★★
 Category: Herbal Soap
+
+Description:
+Lume Luxe Aloe Vera Herbal Soap Aloe Vera Herbal Soap is a natural soap enriched with the benefits of Aloe Vera. It helps to eliminate dryness, retains moisture, and keeps the skin soft and smooth. Aloe Vera provides freshness and soothing effects, while its natural ingredients reduce inflammation and brighten the skin. With daily use, your skin looks healthy, soft, and beautiful.
+
+PRODUCT: Charcoal Herbal Soap
+Price: Rs.600
+Availability: In Stock
+Category: Herbal Soap
+
+Description:
+Lume Luxe Charcoal Herbal Soap Charcoal Herbal Soap is a natural soap that deeply cleanses your skin. It removes harmful bacteria, excess oil, and impurities from the skin. The natural charcoal ingredients help in detoxifying the skin and unclogging pores, leaving your skin fresh and radiant. With daily use, your skin becomes clear, smooth, and flawless.
+
+PRODUCT: Neem Herbal Soap
+Price: Rs.600
+Availability: In Stock
+Category: Herbal Soap
+
+Description:
+Lume Luxe Neem Herbal Soap Neem Herbal Soap is a natural soap enriched with the benefits of Neem leaves. This soap cleanses the skin, and its antibacterial properties eliminate harmful bacteria, keeping the skin healthy. Neem’s natural effects reduce inflammation, help combat acne and pimples, and leave the skin soft and smooth. With daily use, your skin looks clear, fresh, and radiant.
+
+PRODUCT: Menthol Herbal Soap
+Price: Rs.600
+Availability: In Stock
+Category: Herbal Soap
+
+Description:
+Lume Luxe Menthol Herbal Soap Menthol Herbal Soap is a natural soap infused with the refreshing benefits of menthol. It leaves your skin feeling fresh and invigorated, while cleansing and reducing excess oil. The menthol aroma soothes the skin and improves blood circulation. Packed with natural ingredients, it softens and smooths the skin, and with daily use, your skin looks clear, fresh, and glowing.
+
+PRODUCT: Multani Mitte Herbal Soap
+Price: Rs.600
+Availability: In Stock
+Category: Herbal Soap
+
+Description:
+Lume Luxe Multani Mitte Herbal Soap Multani Mitte Herbal Soap is a natural soap enriched with the benefits of Multani Mitti. It cleanses the skin, removes excess oil and impurities, leaving your skin soft and smooth. The natural ingredients of Multani Mitti brighten the skin tone, reduce inflammation, and make the skin fresh and radiant. With daily use, your skin becomes clear, flawless, and glowing.
+
+PRODUCT: Coffee Herbal Soap
+Price: Rs.600
+Availability: In Stock
+Category: Herbal Soap
+
+Description:
+Lume Luxe Coffee Herbal Soap Coffee Herbal Soap is a natural soap enriched with the benefits of coffee. It cleanses the skin, and its antioxidants help brighten and refresh the skin. The natural coffee ingredients remove dryness and improve blood circulation, leaving the skin soft and smooth. With daily use, your skin becomes clear, radiant, and youthful.
+
+PRODUCT: Goat Milk Herbal Soap
+Price: Rs.600
+Availability: In Stock
+Category: Herbal Soap
+
+Description:
+Lume Luxe Goat Milk Herbal Soap Goat Milk Herbal Soap is a natural soap enriched with the benefits of goat milk. It helps to eliminate dryness, provides moisture, and leaves your skin soft and smooth. The natural fats in goat milk help cleanse and nourish the skin, while its ingredients provide freshness and brighten the complexion. With daily use, your skin becomes clear, soft, and radiant.
+
+PRODUCT: Vitamin C Herbal Soap
+Price: Rs.600
+Availability: In Stock
+Category: Herbal Soap
+
+Description:
+Lume Luxe Vitamin C Herbal Soap Vitamin C Herbal Soap is a natural soap enriched with the benefits of Vitamin C. It cleanses the skin, removes excess dirt and oil, and brightens the complexion. The properties of Vitamin C help in rejuvenating and softening the skin, reducing inflammation, and providing protection. With daily use, your skin becomes clear, glowing, and refreshed.
+
+PRODUCT: Lume Luxe Herbal Hair Oil & Shampoo
+Price: Rs.2700
+Original Price: Rs.3000
+Availability: In Stock
+Category: Haircare
+Tags: Trending, New Arrival
+
+Description:
+Lume Luxe Herbal Hair Oil & Shampoo 🌿 Lume Luxe Herbal Hair Oil and Shampoo — The solution to all your hair problems! If you're troubled by hair fall, dandruff, weakness, or lack of shine, Lume Luxe Herbal Hair Oil and Lume Luxe Herbal Shampoo are the perfect choice for you. These products are made from pure herbs and are free from any chemicals. 🔹 Lume Luxe Herbal Hair Oil strengthens your hair from the roots, eliminates dandruff, and promotes hair growth. With continuous use, you'll notice up to 90% improvement. 🔹 Lume Luxe Herbal Shampoo cleanses your hair, eliminates dandruff, and gives your hair natural shine and softness. ✔️ Benefits: Reduces hair fall Eliminates dandruff and itching Strengthens hair roots Promotes new hair growth By using Lume Luxe hair oil and shampoo, you'll see a noticeable difference in your hair! 🌸

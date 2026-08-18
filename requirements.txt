@@ -11,3 +11,4 @@ cloudscraper==1.2.71
 playwright==1.51.0
 httpx==0.28.1
 pytest==8.3.5
+pymongo==4.17.0
