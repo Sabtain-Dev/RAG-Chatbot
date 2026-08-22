@@ -1,0 +1,211 @@
+Batch started: 2026-08-22T17:01:24
+Input: tests\chatbot_questions.json
+API: http://127.0.0.1:8000
+Cases: 20
+
+================================================================================
+[2026-08-22T17:05:40] basic-01 | identity
+Question: Who are you?
+Session: 15f6029b-52d2-496c-b9fa-5e4a2ee4245b
+HTTP status: 200
+Sources found: True
+Answer:
+I am Lumeluxe's AI shopping assistant. How can I assist you today?
+
+================================================================================
+[2026-08-22T17:07:47] basic-02 | company
+Question: What is Lume Luxe's mission?
+Session: 8161b46a-cb40-4f4f-8c6d-61c9f976d049
+HTTP status: 200
+Sources found: True
+Answer:
+Lume Luxe's mission is to deliver dermatologist-approved, high-performing skincare that is effective and backed by science. They aim to empower individuals with safe, effective, and luxurious skincare that enhances natural beauty and inspires everyday confidence.
+
+================================================================================
+[2026-08-22T17:07:47] product-01 | price
+Question: What is the price of Vitamin C Herbal Soap?
+Session: 404ea0a0-888c-427f-b44f-8a6abd6e296d
+HTTP status: 200
+Sources found: True
+Answer:
+The current price of Vitamin C Herbal Soap is Rs.600.
+
+================================================================================
+[2026-08-22T17:08:39] product-02 | availability
+Question: Is Goat Milk Herbal Soap in stock?
+Session: d686681f-cc34-492b-ad04-85bf26a7a10b
+HTTP status: 200
+Sources found: True
+Answer:
+Yes, Goat Milk Herbal Soap is In Stock.
+
+================================================================================
+[2026-08-22T17:10:08] product-03 | description
+Question: What are the benefits of Neem Herbal Soap?
+Session: 714109d6-7ff9-4aa8-8c9e-32415ccd3a86
+HTTP status: 200
+Sources found: True
+Answer:
+Neem Herbal Soap has the following benefits:
+- Cleanses the skin
+- Eliminates harmful bacteria
+- Reduces inflammation
+- Helps combat acne and pimples
+- Leaves the skin soft and smooth
+- Makes the skin look clear, fresh, and radiant with daily use
+
+================================================================================
+[2026-08-22T17:10:09] product-04 | haircare
+Question: What is the original price of the Hair Oil and Shampoo?
+Session: 0aca48f8-b2ba-4bcc-a2fc-956fe3fc5a5a
+HTTP status: 200
+Sources found: True
+Answer:
+The original price of Lume Luxe Herbal Hair Oil & Shampoo is Rs.3000.
+
+================================================================================
+[2026-08-22T17:10:09] product-05 | comparison
+Question: Which costs more: Vitamin C Herbal Soap or the Hair Oil and Shampoo?
+Session: ea90d956-1c07-45d3-a767-17ca0a6e6a9c
+HTTP status: 200
+Sources found: True
+Answer:
+Vitamin C Herbal Soap costs Rs.600. Lume Luxe Herbal Hair Oil & Shampoo costs Rs.2700. Lume Luxe Herbal Hair Oil & Shampoo costs more.
+
+================================================================================
+[2026-08-22T17:11:08] trending-01 | trending
+Question: Which product is discounted and marked as a new arrival?
+Session: 30b99675-037e-482a-8cb7-a3c72457a008
+HTTP status: 200
+Sources found: True
+Answer:
+Lume Luxe Herbal Hair Oil & Shampoo Rs.2700.00 Rs.3000.00 In Stock ★★★★★
+
+This product is marked as a new arrival and discounted.
+
+================================================================================
+[2026-08-22T17:12:37] company-01 | contact
+Question: What is Lume Luxe's phone number?
+Session: 62b8ce5b-78ef-43ac-aad6-43d12fb2a064
+HTTP status: 200
+Sources found: True
+Answer:
+Need more help?
+📞 Phone: +92 331 6640555
+
+================================================================================
+[2026-08-22T17:12:37] privacy-01 | privacy
+Question: Does Lume Luxe use cookies?
+Session: ed34b4e3-28c4-4e5c-8d4c-05139fc1d587
+HTTP status: 200
+Sources found: True
+Answer:
+Yes. Cookies are used to enhance user experience and site navigation. Disabling cookies may affect some website functionality.
+
+================================================================================
+[2026-08-22T17:13:54] unknown-01 | refusal
+Question: What is the shipping fee?
+Session: ef66ce93-a381-4ff5-bc7f-2d65edbe7c96
+HTTP status: 200
+Sources found: True
+Answer:
+The shipping fee is not mentioned in the provided information. You can contact Lumeluxe for shipping information using the details: 🌐 Website: https://lumeluxe.pk 📞 Phone: +92 331 6640555.
+
+================================================================================
+[2026-08-22T17:15:33] unknown-02 | refusal
+Question: Can Vitamin C Herbal Soap cure acne?
+Session: 79fc6082-15b7-44de-aa18-7d8a93e11d3b
+HTTP status: 200
+Sources found: True
+Answer:
+Vitamin C Herbal Soap is not intended to cure acne. It is a natural soap that cleanses the skin, removes excess dirt and oil, and brightens the complexion. The properties of Vitamin C help in rejuvenating and softening the skin, reducing inflammation, and providing protection. For acne treatment, it is recommended to use Acne Herbal Soap, which is formulated to help fight acne and pimples.
+
+================================================================================
+[2026-08-22T17:16:54] memory-01 | memory
+Question: Tell me about Neem Herbal Soap.
+Session: 3f7cdd05-4048-40b4-bfba-aee3d6f30d2f
+HTTP status: 200
+Sources found: True
+Answer:
+Neem Herbal Soap is a natural soap enriched with the benefits of Neem leaves. It cleanses the skin and has antibacterial properties to eliminate harmful bacteria, keeping the skin healthy. Neem's natural effects reduce inflammation, help combat acne and pimples, and leave the skin soft and smooth. With daily use, your skin looks clear, fresh, and radiant. It is currently In Stock and priced at Rs.600.00.
+
+================================================================================
+[2026-08-22T17:16:54] memory-02 | memory
+Question: What is its price?
+Session: 3f7cdd05-4048-40b4-bfba-aee3d6f30d2f
+HTTP status: 200
+Sources found: True
+Answer:
+The current price of Neem Herbal Soap is Rs.600.
+
+================================================================================
+[2026-08-22T17:16:54] memory-03 | memory
+Question: Tell me about the Hair Oil and Shampoo.
+Session: 8af05528-7acb-41fb-8cec-ae97b8c1326c
+HTTP status: 200
+Sources found: True
+Answer:
+Lume Luxe Herbal Hair Oil & Shampoo is a haircare product for hair fall, dandruff, weakness, and lack of shine. The hair oil strengthens roots, helps eliminate dandruff, and promotes hair growth. The shampoo cleanses hair, helps eliminate dandruff, and gives natural shine and softness. It is in stock. Current price: Rs.2700; original price: Rs.3000; discount: 10% (save Rs.300).
+
+================================================================================
+[2026-08-22T17:18:38] memory-04 | memory
+Question: What was its original price?
+Session: 8af05528-7acb-41fb-8cec-ae97b8c1326c
+HTTP status: 200
+Sources found: True
+Answer:
+The original price of Lume Luxe Herbal Hair Oil & Shampoo was Rs.3000.00.
+
+================================================================================
+[2026-08-22T17:20:01] memory-05 | memory
+Question: How much can I save?
+Session: 8af05528-7acb-41fb-8cec-ae97b8c1326c
+HTTP status: 200
+Sources found: True
+Answer:
+You can save Rs.300.00 on Lume Luxe Herbal Hair Oil & Shampoo.
+
+================================================================================
+[2026-08-22T17:20:01] isolation-01 | memory-isolation
+Question: What product were we discussing?
+Session: e6f342f2-dabc-4673-8dbd-1b879621a072
+HTTP status: 200
+Sources found: False
+Answer:
+I couldn't find this information on the Lumeluxe website.
+
+Please contact the Lumeluxe team:
+Need more help?
+🌐 Website: https://lumeluxe.pk
+📞 Phone: +92 331 6640555
+
+================================================================================
+[2026-08-22T17:21:35] reset-01 | reset
+Question: Tell me about Coffee Herbal Soap.
+Session: 59e960c4-6ac9-4823-ac97-b50ee391782b
+HTTP status: 200
+Sources found: True
+Answer:
+- Coffee Herbal Soap is a natural soap enriched with the benefits of coffee.
+- It cleanses the skin and its antioxidants help brighten and refresh the skin.
+- The natural coffee ingredients remove dryness and improve blood circulation, leaving the skin soft and smooth.
+- With daily use, your skin becomes clear, radiant, and youthful.
+- It is available in stock and priced at Rs.600.00.
+
+================================================================================
+[2026-08-22T17:21:35] reset-02 | reset
+Question: What is its price?
+Session: 59e960c4-6ac9-4823-ac97-b50ee391782b
+HTTP status: 200
+Sources found: False
+Answer:
+I couldn't find this information on the Lumeluxe website.
+
+Please contact the Lumeluxe team:
+Need more help?
+🌐 Website: https://lumeluxe.pk
+📞 Phone: +92 331 6640555
+
+================================================================================
+Finished: 2026-08-22T17:21:35
+Completed: 20; Errors: 0

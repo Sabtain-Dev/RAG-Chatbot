@@ -7,47 +7,56 @@
     <title>Lumeluxe Chatbot</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="chatbot.css">
 </head>
 
 <body>
+    <div class="lumeluxe-chatbot-widget" id="lumeluxe-chatbot-widget">
+        <button id="lumeluxe-chat-toggle" class="lumeluxe-chatbot-button" aria-label="Open chatbot">
+            <img src="live_chatbot.svg" alt="Lume Luxe assistant" class="lumeluxe-chatbot-svg">
+        </button>
 
-    <div class="lumeluxe-chatbot-widget">
-
-        <button id="lumeluxe-chat-toggle" class="lumeluxe-chatbot-button">💬</button>
-
-        <div id="lumeluxe-chatbot" class="lumeluxe-chatbot-window lumeluxe-chatbot-hidden">
+        <div id="lumeluxe-chatbot" class="lumeluxe-chatbot-window" aria-live="polite" aria-label="Lume Luxe assistant chat">
             <div class="lumeluxe-chatbot-header">
                 <div class="lumeluxe-chatbot-brand">
-                    <div class="lumeluxe-chatbot-logo"><img src="lumeluxe-chatbot-logo.png" alt="chatbot-logo"></div>
-                    <div>
+                    <div class="lumeluxe-chatbot-logo">
+                        <img src="lumeluxe-chatbot-logo.jpeg" alt="chatbot-logo">
+                    </div>
+                    <div class="lumeluxe-chatbot-title-wrap">
                         <strong>Lume Luxe Assistant</strong>
                         <small>We're here to help</small>
                     </div>
                 </div>
+
                 <div class="lumeluxe-chatbot-header-actions">
-                    <button id="lumeluxe-chat-reset" class="lumeluxe-chatbot-reset" title="Start a new conversation">⟲</button>
-                    <button id="lumeluxe-chat-close" class="lumeluxe-chatbot-close">×</button>
+                    <button id="lumeluxe-chat-reset" class="lumeluxe-chatbot-reset" title="Start a new conversation" aria-label="Reset chat">⟲</button>
+                    <button id="lumeluxe-chat-close" class="lumeluxe-chatbot-close" aria-label="Close chat">×</button>
                 </div>
             </div>
 
             <div id="lumeluxe-chat-messages" class="lumeluxe-chatbot-messages">
                 <div class="lumeluxe-chatbot-message lumeluxe-chatbot-message-bot">
-                    Hello! How can I help you today?
+                    <div class="lumeluxe-chatbot-message-row lumeluxe-chatbot-message-row-bot">
+                        <div class="lumeluxe-chatbot-avatar lumeluxe-chatbot-avatar-bot">
+                            <img src="lumeluxe-chatbot-logo.jpeg" alt="Bot avatar">
+                        </div>
+                        <div class="lumeluxe-chatbot-bubble">Hello! How can I help you today?</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="lumeluxe-chatbot-input-area">
-                <input type="text" id="lumeluxe-message-input" class="lumeluxe-chatbot-input" placeholder="Ask something...">
-                <button id="lumeluxe-send-button" class="lumeluxe-chatbot-send">Send</button>
+            <div class="lumeluxe-chatbot-input-wrap">
+                <div class="lumeluxe-chatbot-input-area">
+                    <input type="text" id="lumeluxe-message-input" class="lumeluxe-chatbot-input" placeholder="Ask something..." maxlength="500">
+                    <button id="lumeluxe-send-button" class="lumeluxe-chatbot-send">Send</button>
+                </div>
+                <p class="lumeluxe-chatbot-disclaimer">The assistant responses may be inaccurate, please verify from website before purchasing.</p>
             </div>
         </div>
-
     </div>
 
     <script src="chatbot.js"></script>
-
 </body>
 
 </html>

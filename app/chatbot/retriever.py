@@ -33,10 +33,4 @@ def retrieve(question: str, top_k: int = 5) -> list[dict]:
         if dist <= MAX_DISTANCE_THRESHOLD
     ]
 
-    if not valid and distances and distances[0] <= 0.70:
-        return [
-            {"document": doc, "distance": dist, "metadata": meta}
-            for doc, dist, meta in combined[:2]
-        ]
-
     return valid

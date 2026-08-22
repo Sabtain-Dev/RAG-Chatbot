@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {"id": "basic-01", "category": "identity", "message": "Who are you?"},
+    {"id": "basic-02", "category": "company", "message": "What is Lume Luxe's mission?"},
+    {"id": "product-01", "category": "price", "message": "What is the price of Vitamin C Herbal Soap?"},
+    {"id": "product-02", "category": "availability", "message": "Is Goat Milk Herbal Soap in stock?"},
+    {"id": "product-03", "category": "description", "message": "What are the benefits of Neem Herbal Soap?"},
+    {"id": "product-04", "category": "haircare", "message": "What is the original price of the Hair Oil and Shampoo?"},
+    {"id": "product-05", "category": "comparison", "message": "Which costs more: Vitamin C Herbal Soap or the Hair Oil and Shampoo?"},
+    {"id": "trending-01", "category": "trending", "message": "Which product is discounted and marked as a new arrival?"},
+    {"id": "company-01", "category": "contact", "message": "What is Lume Luxe's phone number?"},
+    {"id": "privacy-01", "category": "privacy", "message": "Does Lume Luxe use cookies?"},
+    {"id": "unknown-01", "category": "refusal", "message": "What is the shipping fee?"},
+    {"id": "unknown-02", "category": "refusal", "message": "Can Vitamin C Herbal Soap cure acne?"},
+    {"id": "memory-01", "category": "memory", "session": "neem", "message": "Tell me about Neem Herbal Soap."},
+    {"id": "memory-02", "category": "memory", "session": "neem", "message": "What is its price?"},
+    {"id": "memory-03", "category": "memory", "session": "hair", "message": "Tell me about the Hair Oil and Shampoo."},
+    {"id": "memory-04", "category": "memory", "session": "hair", "message": "What was its original price?"},
+    {"id": "memory-05", "category": "memory", "session": "hair", "message": "How much can I save?"},
+    {"id": "isolation-01", "category": "memory-isolation", "session": "new-session", "message": "What product were we discussing?"},
+    {"id": "reset-01", "category": "reset", "session": "reset-session", "message": "Tell me about Coffee Herbal Soap."},
+    {"id": "reset-02", "category": "reset", "session": "reset-session", "reset_before": true, "message": "What is its price?"}
+  ]
+}
