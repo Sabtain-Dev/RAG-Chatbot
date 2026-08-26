@@ -3,15 +3,15 @@ from typing import Deque, Dict, List
 
 # Caps how many messages (not characters) are kept per session. 6 messages =
 # 3 user/assistant exchanges. This is a hard ceiling, not a tuning knob you
-# need to touch — it exists so a long-running conversation doesn't silently
-# blow past num_ctx and get silently truncated/degraded by Ollama.
+# need to touch — it exists so a long-running conversation does not grow
+# unbounded and exceed model context limits.
 MAX_MESSAGES_PER_SESSION = 6
 
 
 class ConversationMemory:
     """
     In-process, in-RAM conversation store keyed by session_id.
-    Deliberately NOT persistent — see Day 7 Part 11. Each session's deque
+    Deliberately NOT persistent. Each session's deque
     auto-evicts its oldest message once MAX_MESSAGES_PER_SESSION is hit, so
     memory usage per session is bounded regardless of conversation length.
     """

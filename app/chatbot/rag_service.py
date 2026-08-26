@@ -228,7 +228,7 @@ class RAGService:
             memory.add_message(session_id, "assistant", answer)
             return ChatResponse(answer=answer, sources_found=True, session_id=session_id)
         except Exception:
-            error_answer = "The AI inference service is currently unavailable. Please ensure Ollama is running locally."
+            error_answer = "The AI inference service is currently unavailable. Please check the API configuration and try again."
             return ChatResponse(answer=error_answer, sources_found=True, session_id=session_id)
 
     def reset_session(self, session_id: str) -> None:

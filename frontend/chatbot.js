@@ -114,13 +114,32 @@ function addBotMessage(text) {
     return bubble;
 }
 
-async function streamText(element, fullText) {
-    element.textContent = "";
-    for (let i = 0; i < fullText.length; i += 1) {
-        element.textContent = fullText.slice(0, i + 1);
-        messages.scrollTop = messages.scrollHeight;
-        await new Promise((resolve) => setTimeout(resolve, 18));
+function escapeHtml(value) {
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+function formatBotText(value) {
+    const escaped = escapeHtml(value);
+    const parts = escaped.split("**");
+    let formatted = "";
+
+    for (let i = 0; i < parts.length; i += 1) {
+        if (i % 2 === 0) {
+            formatted += parts[i];
+        } else {
+            formatted += `<strong>${parts[i]}</strong>`;
+        }
     }
+
+    return formatted.replace(/\*/g, "");
+}
+
+async function streamText(element, fullText) {
+    element.innerHTML = formatBotText(fullText);
+    messages.scrollTop = messages.scrollHeight;
 }
 
 async function sendMessage() {
