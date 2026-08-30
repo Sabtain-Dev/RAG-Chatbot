@@ -11,10 +11,6 @@ __pycache__/
 # Environment variables
 .env
 
-# Database & Chroma local storage
-chroma_db/
-*.sqlite3
-
 # Logs & Data
 *.log
 data/raw/*
