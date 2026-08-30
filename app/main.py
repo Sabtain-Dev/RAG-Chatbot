@@ -1,12 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi.errors import RateLimitExceeded
+from slowapi import _rate_limit_exceeded_handler
 from app.api.routes import router
+from app.core.rate_limit import limiter
 
 app = FastAPI(
     title="Lumeluxe RAG Chatbot API",
     description="Backend API serving Lumeluxe E-Commerce Knowledge Base.",
     version="1.0.0"
 )
+
+# Attaches the rate limiter to the app and returns a proper 429 response
+# with a clear message instead of an unhandled exception when someone
+# exceeds their per-IP limit.
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
