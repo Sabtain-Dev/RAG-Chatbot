@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://lumeluxe-chatbot-6fe84.containers.snapdeploy.app";
 
 const SESSION_STORAGE_KEY = "lumeluxe_chat_session_id";
 let sessionId = localStorage.getItem(SESSION_STORAGE_KEY);
