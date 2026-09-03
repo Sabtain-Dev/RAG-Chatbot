@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumeluxe Chatbot</title>
+    <link rel="icon" type="image/jpeg" href="lumeluxe-chatbot-logo.jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -33,6 +34,11 @@
                     <button id="lumeluxe-chat-reset" class="lumeluxe-chatbot-reset" title="Start a new conversation" aria-label="Reset chat">⟲</button>
                     <button id="lumeluxe-chat-close" class="lumeluxe-chatbot-close" aria-label="Close chat">×</button>
                 </div>
+            </div>
+
+            <div id="lumeluxe-connection-status" class="lumeluxe-connection-status" role="status" aria-live="polite">
+                <span class="lumeluxe-connection-dot" aria-hidden="true"></span>
+                <span id="lumeluxe-connection-text">Connecting to assistant...</span>
             </div>
 
             <div id="lumeluxe-chat-messages" class="lumeluxe-chatbot-messages">

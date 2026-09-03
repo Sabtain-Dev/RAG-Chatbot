@@ -56,6 +56,20 @@ def test_chat_fallback_when_no_results():
         assert "couldn't find" in data["answer"].lower()
 
 
+def test_cors_allows_vercel_preview_origin():
+    response = client.options(
+        "/chat",
+        headers={
+            "Origin": "https://lumeluxe-chatbot-git-main-abc123.vercel.app",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "https://lumeluxe-chatbot-git-main-abc123.vercel.app"
+
+
 def test_chat_rejects_empty_message():
     response = client.post("/chat", json={"session_id": "x", "message": ""})
     assert response.status_code == 422  # Pydantic min_length=1 validation

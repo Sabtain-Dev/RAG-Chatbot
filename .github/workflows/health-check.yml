@@ -1,0 +1,17 @@
+name: API Health Check
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check API health
+        run: |
+          curl --fail --silent --show-error \
+            --max-time 120 \
+            https://lumeluxe-chatbot-6fe84.containers.snapdeploy.app/health

@@ -1,4 +1,10 @@
-const API_URL = "https://lumeluxe-chatbot-6fe84.containers.snapdeploy.app";
+const API_URL = (() => {
+    const hostname = window.location.hostname;
+    if (hostname.includes("localhost") || hostname.includes("127.0.0.1")) {
+        return "http://localhost:8000";
+    }
+    return "https://lumeluxe-chatbot-6fe84.containers.snapdeploy.app";
+})();
 
 const SESSION_STORAGE_KEY = "lumeluxe_chat_session_id";
 let sessionId = localStorage.getItem(SESSION_STORAGE_KEY);
@@ -15,9 +21,61 @@ const chatbot = document.getElementById("lumeluxe-chatbot");
 const sendButton = document.getElementById("lumeluxe-send-button");
 const input = document.getElementById("lumeluxe-message-input");
 const messages = document.getElementById("lumeluxe-chat-messages");
+const connectionStatus = document.getElementById("lumeluxe-connection-status");
+const connectionText = document.getElementById("lumeluxe-connection-text");
 
 let isOpen = false;
 let isTyping = false;
+let apiReady = false;
+let healthCheckTimer;
+
+if (!widget || !toggleButton || !closeButton || !resetButton || !chatbot || !sendButton || !input || !messages || !connectionStatus || !connectionText) {
+    console.warn("Lumeluxe chatbot DOM is incomplete; widget initialization was skipped.");
+} else {
+    initializeChatbot();
+}
+
+function initializeChatbot() {
+    toggleButton.addEventListener("click", () => setChatOpen(!isOpen));
+    closeButton.addEventListener("click", () => setChatOpen(false));
+    sendButton.addEventListener("click", sendMessage);
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") sendMessage();
+    });
+    resetButton.addEventListener("click", resetConversation);
+    document.addEventListener("click", (event) => {
+        if (isOpen && !widget.contains(event.target)) setChatOpen(false);
+    });
+    setChatOpen(false);
+    checkApiHealth();
+}
+
+function setConnectionState(state, message) {
+    apiReady = state === "ready";
+    connectionStatus.className = `lumeluxe-connection-status is-${state}`;
+    connectionText.textContent = message;
+    input.disabled = !apiReady;
+    sendButton.disabled = !apiReady;
+}
+
+async function checkApiHealth() {
+    try {
+        const response = await fetch(`${API_URL}/health`, { cache: "no-store" });
+        if (!response.ok) throw new Error(`Health check returned ${response.status}`);
+
+        clearTimeout(healthCheckTimer);
+        setConnectionState("ready", "Server ready. Ask questions about Lumeluxe Store.");
+        const welcome = messages.querySelector(".lumeluxe-chatbot-bubble");
+        if (welcome && !welcome.closest(".lumeluxe-chatbot-message-row-user")) {
+            welcome.textContent = "Now I’m ready. Ask questions about Lumeluxe Store.";
+        }
+    } catch (error) {
+        setConnectionState("starting", "Server is starting. Please wait about 1 minute...");
+        clearTimeout(healthCheckTimer);
+        healthCheckTimer = setTimeout(checkApiHealth, 5000);
+        console.info("Lumeluxe API is waking up; retrying health check.", error);
+    }
+}
 
 function setChatOpen(open) {
     isOpen = open;
@@ -144,7 +202,10 @@ async function streamText(element, fullText) {
 
 async function sendMessage() {
     const question = input.value.trim();
-    if (!question || isTyping) return;
+    if (!question || isTyping || !apiReady) {
+        if (!apiReady) checkApiHealth();
+        return;
+    }
 
     isTyping = true;
     addUserMessage(question);
@@ -158,6 +219,7 @@ async function sendMessage() {
             body: JSON.stringify({ message: question, session_id: sessionId })
         });
 
+        if (!response.ok) throw new Error(`Chat request returned ${response.status}`);
         const data = await response.json();
 
         if (data.session_id && data.session_id !== sessionId) {
@@ -175,8 +237,10 @@ async function sendMessage() {
         if (thinkingRow) {
             thinkingRow.remove();
         }
-        const bubble = addBotMessage("Sorry, I couldn’t connect to the chatbot server.");
-        await streamText(bubble, "Sorry, I couldn’t connect to the chatbot server.");
+        setConnectionState("starting", "Server is waking up. Please wait...");
+        const bubble = addBotMessage("The server is starting. Your next message will be ready shortly.");
+        await streamText(bubble, "The server is starting. Your next message will be ready shortly.");
+        checkApiHealth();
         console.error("Chatbot Fetch Error:", error);
     } finally {
         isTyping = false;
@@ -206,26 +270,3 @@ async function resetConversation() {
         </div>
     `;
 }
-
-toggleButton.addEventListener("click", () => {
-    setChatOpen(!isOpen);
-});
-
-closeButton.addEventListener("click", () => setChatOpen(false));
-
-sendButton.addEventListener("click", sendMessage);
-input.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        sendMessage();
-    }
-});
-resetButton.addEventListener("click", resetConversation);
-
-document.addEventListener("click", (event) => {
-    const clickedInsideWidget = widget.contains(event.target);
-    if (isOpen && !clickedInsideWidget) {
-        setChatOpen(false);
-    }
-});
-
-setChatOpen(false);

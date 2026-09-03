@@ -180,6 +180,48 @@
     transform: translateY(-1px);
 }
 
+.lumeluxe-connection-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 30px;
+    padding: 7px 12px;
+    background: #fff8fb;
+    border-bottom: 1px solid var(--lume-line);
+    color: var(--lume-muted);
+    font-size: 10.5px;
+    line-height: 1.2;
+}
+
+.lumeluxe-connection-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #e4a126;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(228, 161, 38, 0.12);
+}
+
+.lumeluxe-connection-status.is-ready {
+    color: #39745a;
+    background: #f4fbf7;
+}
+
+.lumeluxe-connection-status.is-ready .lumeluxe-connection-dot {
+    background: #35a66d;
+    box-shadow: 0 0 0 3px rgba(53, 166, 109, 0.12);
+}
+
+.lumeluxe-connection-status.is-starting .lumeluxe-connection-dot {
+    animation: connectionPulse 1.3s ease-in-out infinite;
+}
+
+.lumeluxe-chatbot-input:disabled,
+.lumeluxe-chatbot-send:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
 .lumeluxe-chatbot-reset {
     font-size: 14px;
     padding: 6px 8px;
@@ -446,5 +488,12 @@
 @media (max-height: 640px) {
     .lumeluxe-chatbot-window {
         height: min(74vh, 500px);
+    }
+}
+
+@keyframes connectionPulse {
+    50% {
+        opacity: 0.35;
+        transform: scale(0.7);
     }
 }
