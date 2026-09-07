@@ -319,6 +319,38 @@
     white-space: pre-wrap;
 }
 
+.lumeluxe-chatbot-message-row-bot .lumeluxe-chatbot-bubble {
+    max-width: min(92%, 290px);
+    white-space: normal;
+}
+
+.lumeluxe-chatbot-table-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 4px 0;
+}
+
+.lumeluxe-chatbot-bubble table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    line-height: 1.35;
+    text-align: left;
+}
+
+.lumeluxe-chatbot-bubble th,
+.lumeluxe-chatbot-bubble td {
+    padding: 6px 7px;
+    border: 1px solid #cdddf5;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.lumeluxe-chatbot-bubble th {
+    background: #dceaff;
+    font-weight: 600;
+}
+
 .lumeluxe-chatbot-message-row-user .lumeluxe-chatbot-bubble {
     background: linear-gradient(135deg, var(--lume-pink) 0%, var(--lume-pink-dark) 100%);
     color: var(--lume-white);

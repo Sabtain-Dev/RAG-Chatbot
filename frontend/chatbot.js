@@ -179,25 +179,88 @@ function escapeHtml(value) {
         .replace(/>/g, "&gt;");
 }
 
-function formatBotText(value) {
+function formatInlineMarkdown(value) {
     const escaped = escapeHtml(value);
     const parts = escaped.split("**");
-    let formatted = "";
+    return parts.map((part, index) => index % 2 ? `<strong>${part}</strong>` : part).join("").replace(/\*/g, "");
+}
 
-    for (let i = 0; i < parts.length; i += 1) {
-        if (i % 2 === 0) {
-            formatted += parts[i];
-        } else {
-            formatted += `<strong>${parts[i]}</strong>`;
+function formatBotText(value) {
+    const lines = value.split("\n");
+    const html = [];
+    let index = 0;
+
+    while (index < lines.length) {
+        const separator = lines[index + 1];
+        const isTable = lines[index] && separator && /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(separator);
+        if (isTable) {
+            const headerCells = lines[index].trim().replace(/^\||\|$/g, "").split("|").map(cell => cell.trim());
+            const rows = [];
+            index += 2;
+            while (index < lines.length && lines[index].includes("|")) {
+                rows.push(lines[index].trim().replace(/^\||\|$/g, "").split("|").map(cell => cell.trim()));
+                index += 1;
+            }
+            const renderRow = (cells, tag) => `<tr>${cells.map(cell => `<${tag}>${formatInlineMarkdown(cell)}</${tag}>`).join("")}</tr>`;
+            html.push(`<div class="lumeluxe-chatbot-table-wrap"><table><thead>${renderRow(headerCells, "th")}</thead><tbody>${rows.map(row => renderRow(row, "td")).join("")}</tbody></table></div>`);
+            continue;
+        }
+
+        html.push(formatInlineMarkdown(lines[index]) + (index < lines.length - 1 ? "<br>" : ""));
+        index += 1;
+    }
+
+    return html.join("");
+}
+
+function renderBotText(element, text) {
+    element.innerHTML = formatBotText(text);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function createStreamingRenderer(element) {
+    const wordDelay = 100;
+    let displayedText = "";
+    let pendingText = "";
+    let timer = null;
+    let streamEnded = false;
+    let finishResolve = null;
+
+    function revealNextWord() {
+        timer = null;
+        const match = pendingText.match(/^\s+|^\S+\s/);
+
+        if (match) {
+            displayedText += match[0];
+            pendingText = pendingText.slice(match[0].length);
+            renderBotText(element, displayedText);
+        } else if (streamEnded && pendingText) {
+            displayedText += pendingText;
+            pendingText = "";
+            renderBotText(element, displayedText);
+        }
+
+        if (pendingText) {
+            timer = setTimeout(revealNextWord, wordDelay);
+        } else if (streamEnded && finishResolve) {
+            finishResolve();
+            finishResolve = null;
         }
     }
 
-    return formatted.replace(/\*/g, "");
-}
-
-async function streamText(element, fullText) {
-    element.innerHTML = formatBotText(fullText);
-    messages.scrollTop = messages.scrollHeight;
+    return {
+        push(text) {
+            pendingText += text;
+            if (!timer) revealNextWord();
+        },
+        finish() {
+            streamEnded = true;
+            return new Promise(resolve => {
+                finishResolve = resolve;
+                if (!timer) revealNextWord();
+            });
+        }
+    };
 }
 
 async function sendMessage() {
@@ -213,33 +276,49 @@ async function sendMessage() {
     const thinkingRow = addThinkingIndicator();
 
     try {
-        const response = await fetch(`${API_URL}/chat`, {
+        const response = await fetch(`${API_URL}/chat/stream`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: question, session_id: sessionId })
         });
 
         if (!response.ok) throw new Error(`Chat request returned ${response.status}`);
-        const data = await response.json();
-
-        if (data.session_id && data.session_id !== sessionId) {
-            sessionId = data.session_id;
-            localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
-        }
-
         if (thinkingRow) {
             thinkingRow.remove();
         }
 
-        const bubble = addBotMessage(data.answer || "I’m ready to help.");
-        await streamText(bubble, data.answer || "I’m ready to help.");
+        const bubble = addBotMessage("");
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        const renderer = createStreamingRenderer(bubble);
+
+        while (true) {
+            const { value, done } = await reader.read();
+            buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+            const events = buffer.split("\n\n");
+            buffer = events.pop();
+            for (const event of events) {
+                const line = event.split("\n").find(item => item.startsWith("data: "));
+                if (!line) continue;
+                const payload = JSON.parse(line.slice(6));
+                if (payload.type === "meta" && payload.session_id) {
+                    sessionId = payload.session_id;
+                    localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
+                } else if (payload.type === "token" || payload.type === "error") {
+                    renderer.push(payload.content);
+                }
+            }
+            if (done) break;
+        }
+        await renderer.finish();
     } catch (error) {
         if (thinkingRow) {
             thinkingRow.remove();
         }
         setConnectionState("starting", "Server is waking up. Please wait...");
         const bubble = addBotMessage("The server is starting. Your next message will be ready shortly.");
-        await streamText(bubble, "The server is starting. Your next message will be ready shortly.");
+        renderBotText(bubble, "The server is starting. Your next message will be ready shortly.");
         checkApiHealth();
         console.error("Chatbot Fetch Error:", error);
     } finally {

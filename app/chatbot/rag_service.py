@@ -1,6 +1,6 @@
 import re
 import uuid
-from app.chatbot.generator import generate
+from app.chatbot.generator import generate, generate_stream
 from app.chatbot.retriever import retrieve
 from app.chatbot.memory import memory
 from app.core.config import CONTACT_INFO
@@ -230,6 +230,57 @@ class RAGService:
         except Exception:
             error_answer = "The AI inference service is currently unavailable. Please check the API configuration and try again."
             return ChatResponse(answer=error_answer, sources_found=True, session_id=session_id)
+
+    def stream(self, request: ChatRequest):
+        """Yield chat events while preserving the existing conversation contract."""
+        session_id = request.session_id or str(uuid.uuid4())
+        history = memory.get_history(session_id)
+
+        conversational_reply = self._check_conversational_intent(request.message)
+        if conversational_reply:
+            yield from self._stream_complete(session_id, request.message, conversational_reply, True)
+            return
+
+        if self._history_question(request.message) and not history:
+            yield from self._stream_complete(session_id, request.message, self._fallback_answer(), False)
+            return
+
+        search_query = self._resolve_search_query(request.message, history)
+        if search_query is None:
+            yield from self._stream_complete(session_id, request.message, self._fallback_answer(), False)
+            return
+
+        documents = retrieve(search_query, top_k=self.top_k)
+        if not documents:
+            yield from self._stream_complete(session_id, request.message, self._fallback_answer(), False)
+            return
+
+        structured_answer = self._structured_answer(request.message, documents, search_query)
+        if structured_answer:
+            yield from self._stream_complete(session_id, request.message, structured_answer, True)
+            return
+
+        context = _build_context(documents)
+        yield {"type": "meta", "session_id": session_id, "sources_found": True}
+        answer_parts = []
+        try:
+            for token in generate_stream(question=request.message, context=context, history=history):
+                answer_parts.append(token)
+                yield {"type": "token", "content": token}
+            answer = "".join(answer_parts)
+            memory.add_message(session_id, "user", request.message)
+            memory.add_message(session_id, "assistant", answer)
+            yield {"type": "done"}
+        except Exception:
+            error_answer = "The AI inference service is currently unavailable. Please check the API configuration and try again."
+            yield {"type": "error", "content": error_answer}
+
+    def _stream_complete(self, session_id: str, question: str, answer: str, sources_found: bool):
+        memory.add_message(session_id, "user", question)
+        memory.add_message(session_id, "assistant", answer)
+        yield {"type": "meta", "session_id": session_id, "sources_found": sources_found}
+        yield {"type": "token", "content": answer}
+        yield {"type": "done"}
 
     def reset_session(self, session_id: str) -> None:
         memory.clear(session_id)

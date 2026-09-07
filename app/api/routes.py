@@ -1,4 +1,6 @@
+import json
 from fastapi import APIRouter, Request
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from app.models.chat import ChatRequest, ChatResponse
 from app.chatbot.rag_service import rag_service
@@ -18,6 +20,21 @@ def chat_endpoint(request: Request, body: ChatRequest):
     generous for a real user, tight enough to stop one visitor from
     consuming the whole shared Groq quota (30 req/min total)."""
     return rag_service.ask(body)
+
+
+@router.post("/chat/stream")
+@limiter.limit("15/minute")
+def chat_stream_endpoint(request: Request, body: ChatRequest):
+    """Streams chat events as server-sent events for the web widget."""
+    def event_stream():
+        for event in rag_service.stream(body):
+            yield f"data: {json.dumps(event)}\n\n"
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
+    )
 
 
 @router.post("/chat/reset")
