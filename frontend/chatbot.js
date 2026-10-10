@@ -271,6 +271,10 @@ async function sendMessage() {
     }
 
     isTyping = true;
+    const welcome = messages.querySelector(".lumeluxe-chatbot-message-welcome");
+    if (welcome) {
+        welcome.classList.remove("lumeluxe-chatbot-message-welcome");
+    }
     addUserMessage(question);
     input.value = "";
     const thinkingRow = addThinkingIndicator();
@@ -339,7 +343,7 @@ async function resetConversation() {
     sessionId = crypto.randomUUID();
     localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
     messages.innerHTML = `
-        <div class="lumeluxe-chatbot-message">
+        <div class="lumeluxe-chatbot-message lumeluxe-chatbot-message-bot lumeluxe-chatbot-message-welcome">
             <div class="lumeluxe-chatbot-message-row lumeluxe-chatbot-message-row-bot">
                 <div class="lumeluxe-chatbot-avatar lumeluxe-chatbot-avatar-bot">
                     <img src="lumeluxe-chatbot-logo.jpeg" alt="Bot avatar">

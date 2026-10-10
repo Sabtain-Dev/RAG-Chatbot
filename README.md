@@ -144,6 +144,12 @@ uvicorn app.main:app --reload
 python scripts/chat.py
 ```
 
+**Chat with Frontend widget:**
+```bash
+RAG-Chatbot\frontend; py -m http.server 8080
+```
+Then open `http://localhost:8080` in a browser.
+
 **Docker:**
 ```bash
 docker build -t lumeluxe-chatbot .
