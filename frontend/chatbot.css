@@ -257,8 +257,8 @@
 }
 
 .lumeluxe-chatbot-message-welcome .lumeluxe-chatbot-avatar {
-    width: clamp(76px, 30vw, 112px);
-    height: clamp(76px, 30vw, 112px);
+    width: clamp(6px, 30vw, 82px);
+    height: clamp(6px, 30vw, 82px);
 }
 
 .lumeluxe-chatbot-message-welcome .lumeluxe-chatbot-avatar img {
@@ -272,7 +272,7 @@
     border: none;
     background: transparent;
     box-shadow: none;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5;
     text-align: center;
 }
